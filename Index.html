@@ -73,59 +73,6 @@
             
 
 
-            <script>
-                let currentScreen = 0; // Start on the first screen
-                const screens = document.querySelectorAll('.screen');
-                const totalScreens = screens.length;
-              
-                const switchScreen = (direction) => {
-                  if (direction === 'down' && currentScreen < totalScreens - 1) {
-                    currentScreen++;
-                  } else if (direction === 'up' && currentScreen > 0) {
-                    // Check if Screen 2 has been scrolled to the top
-                    const screen2 = document.getElementById('screen2');
-                    if (currentScreen === 1 && screen2.scrollTop > 0) {
-                      return; // Do nothing if Screen 2 is not at the top
-                    }
-                    currentScreen--;
-                  }
-              
-                  // Update the transform property for switching
-                  screens.forEach((screen, index) => {
-                    const offset = (index - currentScreen) * 100; // Calculate offset
-                    screen.style.transform = `translateY(${offset}%)`;
-                  });
-              
-                  // Unlock scrolling for Screen 2 only
-                  if (currentScreen === 1) {
-                    document.body.style.overflow = 'auto'; // Enable scrolling
-                  } else {
-                    document.body.style.overflow = 'hidden'; // Lock scrolling
-                  }
-                };
-              
-                // Listen to scroll events
-                let isSwitching = false;
-                window.addEventListener('wheel', (event) => {
-                  if (isSwitching) return; // Prevent rapid switching
-                  isSwitching = true;
-              
-                  const direction = event.deltaY > 0 ? 'down' : 'up'; // Determine scroll direction
-                  switchScreen(direction);
-              
-                  // Allow switching again after animation ends
-                  setTimeout(() => {
-                    isSwitching = false;
-                  }, 600); // Match the CSS transition duration
-                });
-              
-                // Prevent body scrolling when Screen 2 is active
-                const screen2 = document.getElementById('screen2');
-                screen2.addEventListener('scroll', () => {
-                  if (currentScreen === 1 && screen2.scrollTop === 0) {
-                    document.body.style.overflow = 'hidden'; // Lock scrolling only when at the top
-                  }
-                });
-              </script>
+            
 </body>
 </html>
